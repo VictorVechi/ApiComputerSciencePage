@@ -1,8 +1,7 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import cors from 'cors';
-import Database from './config/Database';
+import Database from './infra/config/Database';
 
 config();
 
