@@ -1,6 +1,8 @@
 
 export default class UserController {
-    static routes() {
+
+
+    static routes(app: Express.Application) {
         
 
 
