@@ -2,7 +2,7 @@ import mongoose, { Types } from "mongoose";
 import { IUser } from "../../../domain/repository/model/IUser";
 
 const UserSchema = new mongoose.Schema<IUser>({
-    nome: String,
+    name: String,
     email: String,
     password: String,
     id_cargo: Types.ObjectId
