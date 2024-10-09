@@ -16,7 +16,7 @@ export default class UserValidationService implements IUserValidationServices {
 
     async validateRegister(data: any): Promise<boolean> {
 
-        if (!data.email || !data.password || !data.name) {
+        if (!data.email || !data.password || !data.name || !data.id_cargo) {
             console.log('Email, name and password are required');
             return false
         }
