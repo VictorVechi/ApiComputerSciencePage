@@ -12,3 +12,10 @@ export interface IUserLogin {
     login: boolean,
     error: string | null
 }
+
+export interface IUserAdapted {
+    id: string;
+    name: string;
+    email: string;
+    id_cargo: Types.ObjectId;
+}

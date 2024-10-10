@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { IUserValidationServices } from "../../domain/repository/service/IUserValidationService";
+import { IUserValidationServices } from "../../domain/service/IUserValidationService";
 import { DependencyEnum } from "../DependencyInjection/DependencyEnum";
 import UserRepository from "../repository/UserRepository";
 import bcrypt from 'bcrypt';

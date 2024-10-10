@@ -1,4 +1,4 @@
-import { IUserLogin } from "../model/IUser"
+import { IUserLogin } from "../repository/model/IUser"
 
 export interface IUserValidationServices {
     validateRegister(data: any): Promise<boolean>
