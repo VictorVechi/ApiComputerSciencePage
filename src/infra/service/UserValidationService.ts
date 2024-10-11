@@ -26,6 +26,8 @@ export default class UserValidationService implements IUserValidationServices {
             return false
         }
 
+        data.email = data.email.toLowerCase();
+
         if (await this.userRepository.findByEmail(data.email)) {
             console.log('Email already registered');
             return false
@@ -48,7 +50,9 @@ export default class UserValidationService implements IUserValidationServices {
                 response.error = 'Invalid data';
                 return response;
             }
-    
+
+            data.email = data.email.toLowerCase();
+
             const user = await this.userRepository.findByEmail(data.email);
     
             if (!user) {

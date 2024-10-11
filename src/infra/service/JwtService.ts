@@ -46,4 +46,28 @@ export default class JwtService implements IJwtService{
         }
     }
 
+
+    public async checkAdminToken(req: any, res: any, next: any) {
+        try{
+            const authHeader = req.headers['authorization'];
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send({ error: 'Unauthorized' });
+            }
+
+            const secret = process.env.SECRET_KEY;
+
+            if(secret !== undefined){
+                const decoded:any = jwt.verify(token, secret);
+                if(decoded.cargo === 'admin'){
+                    next();
+                } else {
+                    return res.status(401).send({ error: 'Unauthorized' });
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(401).send({ error: 'Unauthorized' });
+        }
+    }
 }

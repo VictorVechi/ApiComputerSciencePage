@@ -3,15 +3,17 @@ import { inject, injectable } from 'tsyringe';
 import { DependencyEnum } from '../DependencyInjection/DependencyEnum';
 import { IRoleApp } from '../../domain/application/IRoleApp';
 import { IRoleController } from '../../domain/controller/IRoleController';
+import { IJwtService } from '../../domain/service/IJwtService';
 
 @injectable()
 export default class RoleController implements IRoleController {
     constructor(
-        @inject(DependencyEnum.ROLE_APPLICATION) private roleApplication: IRoleApp
+        @inject(DependencyEnum.ROLE_APPLICATION) private roleApplication: IRoleApp,
+        @inject(DependencyEnum.JWT_SERVICE) private jwtService: IJwtService
     ){}
 
     routes(app: Express) {
-        app.post('/api/roles/register', async (req, res) => {
+        app.post('/api/roles/register', this.jwtService.checkAdminToken ,async (req, res) => {
             try {
                 const data = req.body;
                 const role = await this.roleApplication.create(data);

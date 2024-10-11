@@ -50,7 +50,7 @@ export default class UserController implements IUserController {
             }
         });
 
-        app.get('/api/user/:id', this.jwtService.checkToken, async (req, res) => {
+        app.get('/api/user/:id', this.jwtService.checkAdminToken, async (req, res) => {
             try {
                 const id: any = req.params.id;
                 const userRepository = container.resolve<UserRepository>(DependencyEnum.USER_REPOSITORY);
