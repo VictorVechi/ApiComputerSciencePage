@@ -76,4 +76,51 @@ export default class UserValidationService implements IUserValidationServices {
             throw new Error('Error validating login');
         }
     }
+
+    async validateUpdate(data: any): Promise<boolean> {
+        if (!data.id) {
+            console.log('ID is required');
+            return false
+        }
+
+        if (data.email && !this.emailRegex.test(data.email)) {
+            console.log('Invalid email format');
+            return false
+        }
+
+        if (!data.name) {
+            console.log('Name is required');
+            return false
+        }
+
+        if (data.email) {
+            data.email = data.email.toLowerCase();
+            const user = await this.userRepository.findByEmail(data.email);
+            if (user && user._id === data.id) {
+                return true;
+            }
+            return false;
+        }
+
+        return false;
+    }
+
+    async validateUpdatePassword(data: any): Promise<boolean> {
+        if (!data.id) {
+            console.log('ID is required');
+            return false
+        }
+
+        if(!data.email || !this.emailRegex.test(data.email)) {
+            console.log('Invalid email format');
+            return false
+        }
+
+        if (!data.password) {
+            console.log('Password is required');
+            return false
+        }
+
+        return true;
+    }
 }

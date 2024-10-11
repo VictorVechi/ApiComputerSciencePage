@@ -1,6 +1,5 @@
 import express from "express";
 import DependencyInjector from "../DependencyInjection/DependencyInjector";
-import UserController from "./UserController";
 import { container } from "tsyringe";
 import { IUserController } from "../../domain/controller/IUserController";
 import { DependencyEnum } from "../DependencyInjection/DependencyEnum";

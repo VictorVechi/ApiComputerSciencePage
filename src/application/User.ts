@@ -6,6 +6,7 @@ import UserRepository from "../infra/repository/UserRepository";
 import UserAdapter from "../infra/adapter/UserAdapter";
 import bcrypt from 'bcrypt';
 import JwtService from "../infra/service/JwtService";
+import { Types } from "mongoose";
 
 @injectable()
 export default class User implements IUserApp {
@@ -44,6 +45,56 @@ export default class User implements IUserApp {
                         token
                     }
                 }
+            }
+            return null;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    async findUsers(): Promise<Object | null> {
+        try {
+            return await this.userRepository.findAll();
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    async findById(id: Types.ObjectId): Promise<Object | null> {
+        try {
+            if(!id) return null;
+            
+            return await this.userRepository.findById(id);
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    async update(data: any): Promise<Object | null> {
+        try {
+            const validate = await this.userValidationService.validateUpdate(data);
+            if (validate){
+                const date = new Date();
+                return await this.userRepository.update(data.id, { ...data, updatedAt: date });
+            }
+            return null;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    async updatePassword(data: any): Promise<Object | null> {
+        try {
+            const validate = await this.userValidationService.validateUpdatePassword(data);
+            if (validate){
+                const salt = await bcrypt.genSalt(12);
+                const passwordHash = await bcrypt.hash(data.password, salt);
+                const date = new Date();
+                return await this.userRepository.update(data.id, { password: passwordHash, updatedAt: date });
             }
             return null;
         } catch (error) {

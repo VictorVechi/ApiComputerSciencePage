@@ -28,10 +28,14 @@ export default class RoleController implements IRoleController {
             }
         });
 
-        app.get('/api/roles', this.jwtService.checkAdminToken, async (req, res) => {
+        app.get('/api/roles', this.jwtService.checkAdminToken, async (_req, res) => {
             try {
                 const roles = await this.roleApplication.searchAll();
-                res.status(200).send({ roles });
+                if (roles) {
+                    res.status(200).send({ roles });
+                } else {
+                    res.status(400).send({ error: 'Roles not found' });
+                }
             } catch (err) {
                 console.error(err);
                 res.status(500).send({ error: 'Error searching roles' });
