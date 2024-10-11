@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
-import { IRole } from "../../../domain/repository/model/IRole";
+import { IRoleSchema } from "../../../domain/repository/model/IRole";
 
 
-const RoleSchema = new mongoose.Schema<IRole>({
-    nome: String,
-    descricao: String
+const RoleSchema = new mongoose.Schema<IRoleSchema>({
+    name: String,
+    description: String,
+    createdAt: Date,
+    updatedAt: Date,
+    active: Boolean
+
 })
 
-const RoleModel = mongoose.model<IRole>('Role', RoleSchema);
+const RoleModel = mongoose.model<IRoleSchema>('Role', RoleSchema);
 
 export default RoleModel;

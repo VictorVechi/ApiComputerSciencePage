@@ -1,13 +1,16 @@
 import mongoose, { Types } from "mongoose";
-import { IUser } from "../../../domain/repository/model/IUser";
+import { IUserSchema } from "../../../domain/repository/model/IUser";
 
-const UserSchema = new mongoose.Schema<IUser>({
-    nome: String,
+const UserSchema = new mongoose.Schema<IUserSchema>({
+    name: String,
     email: String,
     password: String,
-    id_cargo: Types.ObjectId
+    id_cargo: Types.ObjectId,
+    createdAt: Date,
+    updatedAt: Date,
+    active: Boolean
 })
 
-const UserModel = mongoose.model<IUser>('User', UserSchema);
+const UserModel = mongoose.model<IUserSchema>('User', UserSchema);
 
 export default UserModel;
