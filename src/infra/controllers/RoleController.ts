@@ -26,7 +26,16 @@ export default class RoleController implements IRoleController {
                 console.error(err);
                 res.status(500).send({ error: 'Error registering role' });
             }
-        
+        });
+
+        app.get('/api/roles', this.jwtService.checkAdminToken, async (req, res) => {
+            try {
+                const roles = await this.roleApplication.searchAll();
+                res.status(200).send({ roles });
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error searching roles' });
+            }
         });
     }
 }

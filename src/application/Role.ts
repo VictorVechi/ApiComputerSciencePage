@@ -42,4 +42,14 @@ export default class Role implements IRoleApp {
             return null;
         }
     }
+
+    async searchAll(): Promise<IRoleAdapted[] | null> {
+        try {
+            const roles = await this.roleRepository.findAll();
+            return roles.map(role => this.roleAdapter.toJson(role));
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
 }
