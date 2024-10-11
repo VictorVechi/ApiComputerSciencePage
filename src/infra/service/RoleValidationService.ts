@@ -37,4 +37,23 @@ export default class RoleValidationService implements IRoleValidationService{
         response.success = true;
         return response;
     }
+
+    async validateCreate(data: any): Promise<Boolean> {
+        if (!data.name) {
+            console.log('Name is required');
+            return false
+        }
+
+        if (!data.description) {
+            console.log('Description is required');
+            return false
+        }
+
+        if (await this.roleRepository.findByName(data.name)) {
+            console.log('Role already registered');
+            return false
+        }
+
+        return true;
+    }
 }

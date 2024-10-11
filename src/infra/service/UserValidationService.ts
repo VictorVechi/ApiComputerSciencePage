@@ -35,34 +35,41 @@ export default class UserValidationService implements IUserValidationServices {
     }
 
     async validateLogin(data: any): Promise<IUserLogin> {
-        const response: IUserLogin = {
-            user: null,
-            login: false,
-            error: null
-        }
-
-        if (!data.email || !data.password || !this.emailRegex.test(data.email)) {
-            response.login = false;
-            response.error = 'Invalid data';
+        try {
+            
+            const response: IUserLogin = {
+                user: null,
+                login: false,
+                error: null
+            }
+    
+            if (!data.email || !data.password || !this.emailRegex.test(data.email)) {
+                response.login = false;
+                response.error = 'Invalid data';
+                return response;
+            }
+    
+            const user = await this.userRepository.findByEmail(data.email);
+    
+            if (!user) {
+                response.login = false;
+                response.error = 'User not found';
+                return response;
+            }
+            
+            if(!await bcrypt.compare(data.password, user.password)) {
+                response.login = false;
+                response.error = 'Invalid password';
+                return response;
+            }
+    
+            response.user = user;
+            response.login = true;
             return response;
-        }
 
-        const user = await this.userRepository.findByEmail(data.email);
-
-        if (!user) {
-            response.login = false;
-            response.error = 'User not found';
-            return response;
+        } catch (error) {
+            console.error(error);
+            throw new Error('Error validating login');
         }
-        
-        if(!await bcrypt.compare(data.password, user.password)) {
-            response.login = false;
-            response.error = 'Invalid password';
-            return response;
-        }
-
-        response.user = user;
-        response.login = true;
-        return response;
     }
 }

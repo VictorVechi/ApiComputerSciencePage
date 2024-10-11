@@ -1,12 +1,16 @@
 import { injectable } from "tsyringe";
 import BaseRepository from "./BaseRepository";
 import RoleModel from "./model/RoleModel";
-import { IRole } from "../../domain/repository/model/IRole";
+import { IRoleSchema } from "../../domain/repository/model/IRole";
 
 
 @injectable()
-class RoleRepository extends BaseRepository<IRole> {
+class RoleRepository extends BaseRepository<IRoleSchema> {
   constructor() {
     super(RoleModel);
+  }
+
+  async findByName(name: string): Promise<IRoleSchema | null> {
+    return await this.findByField({ name: name });
   }
 } export default RoleRepository;

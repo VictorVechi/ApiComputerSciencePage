@@ -1,6 +1,6 @@
-import { IUserAdapted } from "../repository/model/IUser";
+import { IUser, IUserAdapted } from "../repository/model/IUser";
 
 
 export interface IUserAdapter {
-    toJson(): IUserAdapted
+    toJson(user: IUser): IUserAdapted
 }

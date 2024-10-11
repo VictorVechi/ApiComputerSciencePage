@@ -1,6 +1,6 @@
-import { IRoleAdapted } from "../repository/model/IRole";
+import { IRole, IRoleAdapted } from "../repository/model/IRole";
 
 export interface IRoleAdapter {
-    toJson(): IRoleAdapted
+    toJson(role:IRole): IRoleAdapted
 
 }

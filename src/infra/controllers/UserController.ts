@@ -39,7 +39,6 @@ export default class UserController implements IUserController {
             try{
                 const data = req.body;
                 const response = await this.userApplication.login(data)
-
                 if (response && response.token){
                     res.status(200).send({ message: 'User logged in successfully', response});
                 } else {

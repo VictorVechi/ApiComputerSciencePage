@@ -10,18 +10,18 @@ export default class JwtService implements IJwtService{
     constructor(
         @inject(DependencyEnum.ROLE_APPLICATION) private roleApplication: Role
     ){}
-    private secretKey = process.env.SECRET_KEY;
 
     public async generateToken(data: IUserAdapted): Promise<string | null> {
+        const secretKey = process.env.SECRET_KEY;
         const role = await this.roleApplication.execute(data.id_cargo);
-
-        if(this.secretKey !== undefined && role !== null){
+        if(secretKey !== undefined && role !== null){
+            console.log('entrou');
             return jwt.sign({
                 id: data.id,
                 name: data.name,
                 email: data.email,
                 cargo: role.roleName
-            }, this.secretKey);
+            }, secretKey);
         }
         return null;
     }

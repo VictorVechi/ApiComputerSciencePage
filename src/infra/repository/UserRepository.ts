@@ -1,11 +1,11 @@
 import { injectable } from "tsyringe";
-import { IUser } from "../../domain/repository/model/IUser";
+import { IUser, IUserSchema } from "../../domain/repository/model/IUser";
 import BaseRepository from "./BaseRepository";
 import UserModel from "./model/UserModel";
 
 
 @injectable()
-class UserRepository extends BaseRepository<IUser> {
+class UserRepository extends BaseRepository<IUserSchema> {
     constructor() {
         super(UserModel);
     }

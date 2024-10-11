@@ -17,28 +17,39 @@ export default class User implements IUserApp {
     ){}
 
     async create(data: any): Promise<Object | null> {
-        const validate = await this.userValidationService.validateRegister(data);
-        if (validate){
-            const salt = await bcrypt.genSalt(12);
-            const passwordHash = await bcrypt.hash(data.password, salt);
-            return await this.userRepository.create({ ...data, password: passwordHash });
+        try{
+            const validate = await this.userValidationService.validateRegister(data);
+            if (validate){
+                const salt = await bcrypt.genSalt(12);
+                const passwordHash = await bcrypt.hash(data.password, salt);
+                const date = new Date();
+                return await this.userRepository.create({ ...data, password: passwordHash, createdAt: date, updatedAt: date, active: true });
+            }
+            return null;
+        } catch (error) {
+            console.error(error);
+            return null;
         }
-        return null;
     }
 
     async login(data: any): Promise<IUserLoginResponse | null> {
-        const validate = await this.userValidationService.validateLogin(data);
-        if (validate.user && validate.login){
-            const user = this.userAdapter.toJson();
-            const token = await this.jwtService.generateToken(user);
-            if (token) {
-                return {
-                    user,
-                    token
+        try {
+            const validate = await this.userValidationService.validateLogin(data);
+            if (validate.user && validate.login){
+                const user = this.userAdapter.toJson(validate.user);
+                const token = await this.jwtService.generateToken(user);
+                if (token) {
+                    return {
+                        user,
+                        token
+                    }
                 }
             }
+            return null;
+        } catch (error) {
+            console.error(error);
+            return null;
         }
-        return null;
     }
 
 }

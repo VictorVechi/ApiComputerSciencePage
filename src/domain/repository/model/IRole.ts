@@ -2,8 +2,17 @@ import { Types } from "mongoose";
 
 export interface IRole {
     _id: Types.ObjectId;
-    nome: string;
-    descricao: string;
+    name: string;
+    description: string;
+}
+
+export interface IRoleSchema {
+    _id: Types.ObjectId;
+    name: string;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date;
+    active: boolean;
 }
 
 export interface IRoleResponse {

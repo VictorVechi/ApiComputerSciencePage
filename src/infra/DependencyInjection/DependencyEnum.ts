@@ -8,5 +8,6 @@ export enum DependencyEnum {
     USER_ADAPTER = 'IUserAdapter',
     ROLE_APPLICATION = 'IRoleApp',
     USER_APPLICATION = 'IUserApp',
-    USER_CONTROLLER = 'IUserController'
+    USER_CONTROLLER = 'IUserController',
+    ROLE_CONTROLLER = 'IRoleController',
 }

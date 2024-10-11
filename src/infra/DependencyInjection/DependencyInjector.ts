@@ -21,6 +21,8 @@ import { IUserApp } from "../../domain/application/IUserApp";
 import User from "../../application/User";
 import { IUserController } from "../../domain/controller/IUserController";
 import UserController from "../controllers/UserController";
+import { IRoleController } from "../../domain/controller/IRoleController";
+import RoleController from "../controllers/RoleController";
 
 
 export default class DependencyInjector {
@@ -57,5 +59,6 @@ export default class DependencyInjector {
 
     private static registerControllers() {
         container.register<IUserController>(DependencyEnum.USER_CONTROLLER, UserController)
+        container.register<IRoleController>(DependencyEnum.ROLE_CONTROLLER, RoleController)
     }
 }
