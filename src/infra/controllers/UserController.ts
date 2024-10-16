@@ -1,9 +1,7 @@
 import { Express } from 'express';
-import { container, inject, injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { DependencyEnum } from '../DependencyInjection/DependencyEnum';
-import UserRepository from '../repository/UserRepository';
 import { IJwtService } from '../../domain/service/IJwtService';
-import User from '../../application/User';
 import { IUserController } from '../../domain/controller/IUserController';
 import { IUserApp } from '../../domain/application/IUserApp';
 
@@ -16,9 +14,6 @@ export default class UserController implements IUserController {
     ){}
 
     routes(app: Express) {
-        app.get('/users', async (req, res) => {
-            res.send('Users');
-        });
 
         app.post('/api/user/register', async (req, res) => {
             try {
@@ -53,11 +48,58 @@ export default class UserController implements IUserController {
         app.get('/api/user/:id', this.jwtService.checkAdminToken, async (req, res) => {
             try {
                 const id: any = req.params.id;
-                const userRepository = container.resolve<UserRepository>(DependencyEnum.USER_REPOSITORY);
                 
-                const user = await userRepository.findById(id);
+                const user = await this.userApplication.findById(id);   
+                
+                if (user) {
+                    res.status(200).send({ user });
+                } else {
+                    res.status(400).send({ error: 'User not found' });
+                }
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error updating user' });
+            }
+        });
 
-                res.status(200).send({ message: 'User found', user });
+        app.get('/api/users', this.jwtService.checkAdminToken, async (_req, res) => {
+            try {
+                const users = await this.userApplication.findUsers();
+                if (users) {
+                    res.status(200).send({ users });
+                } else {
+                    res.status(400).send({ error: 'Users not found' });
+                }
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error updating user' });
+            }
+        });
+
+        app.put('/api/user/recover', this.jwtService.checkToken, async (req, res) => {
+            try {
+                const data = req.body;
+                const user = await this.userApplication.updatePassword(data);
+                if (user) {
+                    res.status(200).send({ message: 'Password updated successfully' });
+                } else {
+                    res.status(400).send({ error: 'Invalid data' });
+                }
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error updating password' });
+            }
+        });
+
+        app.put('/api/user/update', this.jwtService.checkToken, async (req, res) => {
+            try {
+                const data = req.body;
+                const user = await this.userApplication.update(data);
+                if (user) {
+                    res.status(200).send({ message: 'User updated successfully' });
+                } else {
+                    res.status(400).send({ error: 'Invalid data' });
+                }
             } catch (err) {
                 console.error(err);
                 res.status(500).send({ error: 'Error updating user' });

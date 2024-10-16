@@ -56,4 +56,30 @@ export default class RoleValidationService implements IRoleValidationService{
 
         return true;
     }
+
+    async validateUpdate(id: Types.ObjectId, data: any): Promise<Boolean> {
+        if (!id) {
+            console.log('Id is required');
+            return false
+        }
+
+        if (!data.name) {
+            console.log('Name is required');
+            return false
+        }
+
+        if (!data.description) {
+            console.log('Description is required');
+            return false
+        }
+
+        const role = await this.roleRepository.findByName(data.name);
+
+        if (role && role._id.toString() !== id.toString()) {
+            console.log('Role already registered');
+            return false
+        }
+
+        return true;
+    }
 }
