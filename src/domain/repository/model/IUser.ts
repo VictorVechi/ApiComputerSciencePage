@@ -25,6 +25,11 @@ export interface IUserLogin {
     error: string | null
 }
 
+export interface IUserDelete {
+    user: IUser | null,
+    error: string | null
+}
+
 export interface IUserAdapted {
     id: string;
     name: string;

@@ -3,7 +3,7 @@ import { IUserValidationServices } from "../../domain/service/IUserValidationSer
 import { DependencyEnum } from "../DependencyInjection/DependencyEnum";
 import UserRepository from "../repository/UserRepository";
 import bcrypt from 'bcrypt';
-import { IUserLogin } from "../../domain/repository/model/IUser";
+import { IUserLogin, IUserDelete } from "../../domain/repository/model/IUser";
 
 @injectable()
 export default class UserValidationService implements IUserValidationServices {
@@ -75,6 +75,35 @@ export default class UserValidationService implements IUserValidationServices {
             console.error(error);
             throw new Error('Error validating login');
         }
+    }
+
+    async validateDelete(data: any): Promise<IUserDelete> {
+        
+        const response: IUserDelete = {
+            user: null,
+            error: null
+        }
+
+        if(data.email){
+            if (!this.emailRegex.test(data.email)) {
+                response.error = 'Invalid email format';
+
+                return response;
+            }
+            
+            data.email = data.email.toLowerCase();
+            const user = await this.userRepository.findByEmail(data.email);
+            
+            if (!user) {
+                response.error = 'User not found';
+                
+                return response;
+            } else {
+                response.user = user
+            }
+        }
+        
+        return response;
     }
 
     async validateUpdate(data: any): Promise<boolean> {
