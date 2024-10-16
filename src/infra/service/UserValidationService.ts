@@ -77,7 +77,7 @@ export default class UserValidationService implements IUserValidationServices {
         }
     }
 
-    async validateDelete(data: any): Promise <IUserDelete> {
+    async validateDelete(data: any): Promise<IUserDelete> {
         
         const response: IUserDelete = {
             user: null,
@@ -87,6 +87,8 @@ export default class UserValidationService implements IUserValidationServices {
         if(data.email){
             if (!this.emailRegex.test(data.email)) {
                 response.error = 'Invalid email format';
+
+                return response;
             }
             
             data.email = data.email.toLowerCase();
@@ -94,6 +96,8 @@ export default class UserValidationService implements IUserValidationServices {
             
             if (!user) {
                 response.error = 'User not found';
+                
+                return response;
             } else {
                 response.user = user
             }
