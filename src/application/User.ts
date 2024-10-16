@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { IUserApp, IUserLoginResponse } from "../domain/application/IUserApp";
+import { IUserApp, IUserLoginResponse, IUserDeleteResponse } from "../domain/application/IUserApp";
 import { DependencyEnum } from "../infra/DependencyInjection/DependencyEnum";
 import { IUserValidationServices } from "../domain/service/IUserValidationService";
 import UserRepository from "../infra/repository/UserRepository";
@@ -50,6 +50,26 @@ export default class User implements IUserApp {
             console.error(error);
             return null;
         }
+    }
+
+    async delete(data: any): Promise<IUserDeleteResponse | null> {
+        try {
+            const validate = await this.userValidationService.validateDelete(data);
+            if (validate.user && !validate.error){
+                const user = this.userAdapter.toJson(validate.user);
+                const delete_result = await this.userRepository.delete(validate.user._id);
+            
+                return {
+                    user,
+                    deleted: delete_result ? true : false,
+                    error: null
+                }
+            }
+            return null;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }        
     }
 
 }

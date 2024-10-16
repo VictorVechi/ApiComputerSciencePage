@@ -63,5 +63,22 @@ export default class UserController implements IUserController {
                 res.status(500).send({ error: 'Error updating user' });
             }
         });
+
+        app.delete('/api/user/delete', this.jwtService.checkAdminToken, async (req, res) => {
+            try {
+                const data = req.body;
+                const response = await this.userApplication.delete(data);
+
+                if (response){
+                    res.status(200).send({ message: 'User deleted', response });
+                } else {
+                    res.status(400).send({ message: "Unable to delete user"})
+                }
+                
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error deleting user' });
+            }
+        });
     }
 }
