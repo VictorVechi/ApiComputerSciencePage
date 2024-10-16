@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Types, UpdateWriteOpResult } from "mongoose";
 import { inject, injectable } from "tsyringe";
 import { DependencyEnum } from "../infra/DependencyInjection/DependencyEnum";
 import RoleValidationService from "../infra/service/RoleValidationService";
@@ -47,6 +47,21 @@ export default class Role implements IRoleApp {
         try {
             const roles = await this.roleRepository.findAll();
             return roles.map(role => this.roleAdapter.toJson(role));
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
+
+    async update(id: Types.ObjectId, data: any): Promise<UpdateWriteOpResult | null> {
+        try {
+            const validate = await this.roleValidationService.validateUpdate(id, data);
+            if(validate) {
+                const date = new Date();
+                const role = await this.roleRepository.update(id, { ...data, updatedAt: date });
+                return role
+            }
+            return null;
         } catch (error) {
             console.log(error);
             return null;
