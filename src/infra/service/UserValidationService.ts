@@ -4,18 +4,20 @@ import { DependencyEnum } from "../DependencyInjection/DependencyEnum";
 import UserRepository from "../repository/UserRepository";
 import bcrypt from 'bcrypt';
 import { IUserLogin, IUserDelete } from "../../domain/repository/model/IUser";
+import { IRoleValidationService } from "../../domain/service/IRoleValidationService";
 
 @injectable()
 export default class UserValidationService implements IUserValidationServices {
     private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     constructor(
-        @inject(DependencyEnum.USER_REPOSITORY) private userRepository: UserRepository
+        @inject(DependencyEnum.USER_REPOSITORY) private userRepository: UserRepository,
+        @inject(DependencyEnum.ROLE_VALIDATION_SERVICE) private roleValidationService: IRoleValidationService
     )
     {}
 
     async validateRegister(data: any): Promise<boolean> {
-
+        
         if (!data.email || !data.password || !data.name || !data.id_cargo) {
             console.log('Email, name and password are required');
             return false
@@ -30,6 +32,10 @@ export default class UserValidationService implements IUserValidationServices {
 
         if (await this.userRepository.findByEmail(data.email)) {
             console.log('Email already registered');
+            return false
+        }
+
+        if(!await this.roleValidationService.validateRole(data.id_cargo)){
             return false
         }
 

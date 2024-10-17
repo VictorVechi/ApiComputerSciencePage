@@ -1,9 +1,9 @@
 import { container, DependencyContainer } from "tsyringe";
 import { IRepository } from "../../domain/repository/IRepository";
-import { IRole, IRoleSchema } from "../../domain/repository/model/IRole";
+import { IRoleSchema } from "../../domain/repository/model/IRole";
 import RoleRepository from "../repository/RoleRepository";
 import { DependencyEnum } from "./DependencyEnum";
-import { IUser, IUserSchema } from "../../domain/repository/model/IUser";
+import { IUserSchema } from "../../domain/repository/model/IUser";
 import UserRepository from "../repository/UserRepository";
 import { IUserValidationServices } from "../../domain/service/IUserValidationService";
 import UserValidationService from "../service/UserValidationService";
