@@ -102,7 +102,7 @@ export default class User implements IUserApp {
             }
             return null;
         } catch (error) {
-            console.error(error);
+            console.error('Error updating user');
             return null;
         }
     }
@@ -118,7 +118,7 @@ export default class User implements IUserApp {
             }
             return null;
         } catch (error) {
-            console.error(error);
+            console.error('Error updating password');
             return null;
         }
     }

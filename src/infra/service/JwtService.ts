@@ -15,12 +15,12 @@ export default class JwtService implements IJwtService{
         const secretKey = process.env.SECRET_KEY;
         const role = await this.roleApplication.execute(data.id_cargo);
         if(secretKey !== undefined && role !== null){
-            console.log('entrou');
             return jwt.sign({
                 id: data.id,
                 name: data.name,
                 email: data.email,
-                cargo: role.roleName
+                cargo: role.roleName,
+                exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60)
             }, secretKey);
         }
         return null;
