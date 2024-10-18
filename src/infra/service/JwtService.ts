@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import jwt from 'jsonwebtoken';
-import { IUser, IUserAdapted } from "../../domain/repository/model/IUser";
+import { IUserAdapted } from "../../domain/repository/model/IUser";
 import { DependencyEnum } from "../DependencyInjection/DependencyEnum";
 import Role from "../../application/Role";
 import { IJwtService } from "../../domain/service/IJwtService";
