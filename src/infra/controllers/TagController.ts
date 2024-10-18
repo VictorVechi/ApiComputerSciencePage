@@ -73,5 +73,20 @@ export default class TagController implements ITagController {
                 res.status(500).send({ error: 'Error updating tag' });
             }
         })
+
+        app.delete('/api/tag/:id', this.jwtService.checkAdminToken, async (req, res) => {
+            try {
+                const id:any = req.params.id;
+                const tag = await this.tagApplication.delete(id);
+                if (tag) {
+                    res.status(200).send({ message: 'Tag deleted successfully' });
+                } else {
+                    res.status(400).send({ error: 'Invalid data' });
+                }
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error deleting tag' });
+            }
+        })
     }
 }
