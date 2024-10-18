@@ -16,7 +16,7 @@ class UserRepository extends BaseRepository<IUserSchema> {
         return await this.findByField({ email: email });
     }
 
-    async deleteById(id: Types.ObjectId): Promise<DeleteResult>{
+    async deleteById(id: Types.ObjectId): Promise<DeleteResult | null>{
         return await this.delete(id);
     }
 

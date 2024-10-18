@@ -1,9 +1,9 @@
 import { container, DependencyContainer } from "tsyringe";
 import { IRepository } from "../../domain/repository/IRepository";
-import { IRole } from "../../domain/repository/model/IRole";
+import { IRoleSchema } from "../../domain/repository/model/IRole";
 import RoleRepository from "../repository/RoleRepository";
 import { DependencyEnum } from "./DependencyEnum";
-import { IUser } from "../../domain/repository/model/IUser";
+import { IUserSchema } from "../../domain/repository/model/IUser";
 import UserRepository from "../repository/UserRepository";
 import { IUserValidationServices } from "../../domain/service/IUserValidationService";
 import UserValidationService from "../service/UserValidationService";
@@ -23,6 +23,14 @@ import { IUserController } from "../../domain/controller/IUserController";
 import UserController from "../controllers/UserController";
 import { IRoleController } from "../../domain/controller/IRoleController";
 import RoleController from "../controllers/RoleController";
+import TagRepository from "../repository/TagRepository";
+import { ITagSchema } from "../../domain/repository/model/ITag";
+import { ITagValidationService } from "../../domain/service/ITagValidationService";
+import TagValidationService from "../service/TagValidationService";
+import { ITagApp } from "../../domain/application/ITagApp";
+import Tag from "../../application/Tag";
+import { ITagController } from "../../domain/controller/ITagController";
+import TagController from "../controllers/TagController";
 
 
 export default class DependencyInjector {
@@ -37,14 +45,16 @@ export default class DependencyInjector {
     }
 
     private static registerRepositories() {
-        container.register<IRepository<IRole>>(DependencyEnum.ROLE_REPOSITORY, RoleRepository);
-        container.register<IRepository<IUser>>(DependencyEnum.USER_REPOSITORY, UserRepository);
+        container.register<IRepository<IRoleSchema>>(DependencyEnum.ROLE_REPOSITORY, RoleRepository);
+        container.register<IRepository<IUserSchema>>(DependencyEnum.USER_REPOSITORY, UserRepository);
+        container.register<IRepository<ITagSchema>>(DependencyEnum.TAG_REPOSITORY, TagRepository);
     }
 
     private static registerServices() {
         container.register<IUserValidationServices>(DependencyEnum.USER_VALIDATION_SERVICE, UserValidationService);
         container.register<IRoleValidationService>(DependencyEnum.ROLE_VALIDATION_SERVICE, RoleValidationService);
         container.register<IJwtService>(DependencyEnum.JWT_SERVICE, JwtService);
+        container.register<ITagValidationService>(DependencyEnum.TAG_VALIDATION_SERVICE, TagValidationService);
     }
 
     private static registerAdapters() {
@@ -55,10 +65,12 @@ export default class DependencyInjector {
     private static registerApplications() {
         container.register<IRoleApp>(DependencyEnum.ROLE_APPLICATION, Role);
         container.register<IUserApp>(DependencyEnum.USER_APPLICATION, User);
+        container.register<ITagApp>(DependencyEnum.TAG_APPLICATION, Tag);
     }
 
     private static registerControllers() {
         container.register<IUserController>(DependencyEnum.USER_CONTROLLER, UserController)
         container.register<IRoleController>(DependencyEnum.ROLE_CONTROLLER, RoleController)
+        container.register<ITagController>(DependencyEnum.TAG_CONTROLLER, TagController)
     }
 }
