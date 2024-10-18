@@ -29,6 +29,8 @@ import { ITagValidationService } from "../../domain/service/ITagValidationServic
 import TagValidationService from "../service/TagValidationService";
 import { ITagApp } from "../../domain/application/ITagApp";
 import Tag from "../../application/Tag";
+import { ITagController } from "../../domain/controller/ITagController";
+import TagController from "../controllers/TagController";
 
 
 export default class DependencyInjector {
@@ -69,5 +71,6 @@ export default class DependencyInjector {
     private static registerControllers() {
         container.register<IUserController>(DependencyEnum.USER_CONTROLLER, UserController)
         container.register<IRoleController>(DependencyEnum.ROLE_CONTROLLER, RoleController)
+        container.register<ITagController>(DependencyEnum.TAG_CONTROLLER, TagController)
     }
 }
