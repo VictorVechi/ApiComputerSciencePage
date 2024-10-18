@@ -29,11 +29,11 @@ export default class TagController implements ITagController {
             }
         });
 
-        app.get('/api/tag/', this.jwtService.checkToken, async (req, res) => {
+        app.get('/api/tag/search/:name', this.jwtService.checkToken, async (req, res) => {
             try {
-                const data: any = req.body;
-                if(data.name){
-                    const tag = await this.tagApplication.findByName(data);
+                const name: any = req.params.name;
+                if(name){
+                    const tag = await this.tagApplication.findByName(name);
                     if (tag) {
                         res.status(200).send({ tag });
                     } else {

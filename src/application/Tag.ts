@@ -17,7 +17,8 @@ export default class Tag implements ITagApp {
     async create(data: any): Promise<Object | null> {
         try{
             const validate = this.tagValidationService.validateCreateTag(data);
-            if (validate){
+            const tag = await this.tagRepository.findByName(data.name);
+            if (validate && !tag){
                 const date = new Date();
                 return await this.tagRepository.create({...data, createdAt: date, updatedAt: date});
             }
