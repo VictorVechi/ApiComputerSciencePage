@@ -125,7 +125,7 @@ export default class UserValidationService implements IUserValidationServices {
         if (data.email) {
             data.email = data.email.toLowerCase();
             const user = await this.userRepository.findByEmail(data.email);
-            if (user && user._id === data.id) {
+            if (user && user._id.toString() === data.id) {
                 return true;
             }
             return false;
