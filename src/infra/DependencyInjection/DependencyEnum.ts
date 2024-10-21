@@ -6,6 +6,7 @@ export enum DependencyEnum {
     ROLE_REPOSITORY = 'IRepository<IRoleSchema>',
     USER_REPOSITORY = 'IRepository<IUserSchema>',
     TAG_REPOSITORY = 'IRepository<ITagSchema>',
+    POST_REPOSITORY = 'IRepository<IPostSchema>',
     
     /**
      * Services

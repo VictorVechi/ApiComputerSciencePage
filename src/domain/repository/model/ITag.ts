@@ -17,3 +17,8 @@ export interface ITag {
     updatedAt: Date;
     active: boolean;
 }
+
+export interface ITagPost {
+    _id: Types.ObjectId;
+    name: string;
+}

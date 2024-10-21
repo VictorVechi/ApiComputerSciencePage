@@ -31,6 +31,8 @@ import { ITagApp } from "../../domain/application/ITagApp";
 import Tag from "../../application/Tag";
 import { ITagController } from "../../domain/controller/ITagController";
 import TagController from "../controllers/TagController";
+import { IPostSchema } from "../../domain/repository/model/IPost";
+import PostRepository from "../repository/PostRepository";
 
 
 export default class DependencyInjector {
@@ -48,6 +50,7 @@ export default class DependencyInjector {
         container.register<IRepository<IRoleSchema>>(DependencyEnum.ROLE_REPOSITORY, RoleRepository);
         container.register<IRepository<IUserSchema>>(DependencyEnum.USER_REPOSITORY, UserRepository);
         container.register<IRepository<ITagSchema>>(DependencyEnum.TAG_REPOSITORY, TagRepository);
+        container.register<IRepository<IPostSchema>>(DependencyEnum.POST_REPOSITORY, PostRepository);
     }
 
     private static registerServices() {

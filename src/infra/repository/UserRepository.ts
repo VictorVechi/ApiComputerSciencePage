@@ -7,7 +7,7 @@ import { DeleteResult } from 'mongodb';
 
 
 @injectable()
-class UserRepository extends BaseRepository<IUserSchema> {
+export default class UserRepository extends BaseRepository<IUserSchema> {
     constructor() {
         super(UserModel);
     }
@@ -20,4 +20,4 @@ class UserRepository extends BaseRepository<IUserSchema> {
         return await this.delete(id);
     }
 
-}export default UserRepository;
+};

@@ -29,4 +29,8 @@ class BaseRepository<T> implements IRepository<T> {
         return await this.model.findOne(field);
     }
 
+    async findAllByField(field: object): Promise<T[]> {
+        return await this.model.find(field);
+    }
+
 } export default BaseRepository;
