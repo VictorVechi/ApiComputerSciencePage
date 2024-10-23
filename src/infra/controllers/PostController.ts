@@ -90,6 +90,6 @@ export default class PostController implements IPostController {
                 console.log(err)
                 res.status(500).send({error: "Error searching post by tag"})
             }
-        }
+        });
     }
 }
