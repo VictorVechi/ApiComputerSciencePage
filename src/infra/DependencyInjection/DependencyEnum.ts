@@ -37,4 +37,5 @@ export enum DependencyEnum {
     USER_CONTROLLER = 'IUserController',
     ROLE_CONTROLLER = 'IRoleController',
     TAG_CONTROLLER = 'ITagController',
+    POST_CONTROLLER = 'IPostController'
 }

@@ -37,6 +37,9 @@ import { IPostValidationService } from "../../domain/service/IPostValidationServ
 import PostValidationService from "../service/PostValidationService";
 import { IPostApp } from "../../domain/application/IPostApp";
 import Post from "../../application/Post";
+import { IPostController } from "../../domain/controller/IPostController";
+import PostController from "../controllers/PostController";
+
 
 export default class DependencyInjector {
     static register(): DependencyContainer {
@@ -80,5 +83,6 @@ export default class DependencyInjector {
         container.register<IUserController>(DependencyEnum.USER_CONTROLLER, UserController)
         container.register<IRoleController>(DependencyEnum.ROLE_CONTROLLER, RoleController)
         container.register<ITagController>(DependencyEnum.TAG_CONTROLLER, TagController)
+        container.register<IPostController>(DependencyEnum.POST_CONTROLLER, PostController)
     }
 }

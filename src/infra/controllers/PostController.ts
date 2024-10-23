@@ -13,6 +13,83 @@ export default class PostController implements IPostController {
     ){}
 
     routes(app: Express) {
-        
+        app.post('/api/posts/create', this.jwtApplication.checkToken, async (req, res) => {
+            try {
+                const data = req.body;
+                const post = await this.postApplication.create(data);
+                if (post) {
+                    res.status(200).send({ message: 'Post created successfully' });
+                } else {
+                    res.status(400).send({ error: 'Invalid data' });
+                }
+            } catch (err) {
+                console.log(err);
+                res.status(500).send({ error: 'Error creating post' });
+            }
+        });
+    
+        app.put('/api/posts/:id', this.jwtApplication.checkToken, async (req, res) => {
+            try {
+                const data = req.body;
+                const id: any = req.params.id;
+                const result = await this.postApplication.update(id, data);
+                if (result) {
+                    res.status(200).send({ message: 'Post updated successfully' });
+                } else {
+                    res.status(400).send({ error: 'Post not found' });
+                }
+            } catch (err) {
+                console.log(err);
+                res.status(500).send({ error: 'Error updating post' });
+            }
+        });
+
+        app.delete('/api/posts/:id', this.jwtApplication.checkToken, async (req, res) => {
+            try{
+                const id: any = req.params.id;
+                const result = await this.postApplication.delete(id);
+                
+                if (result) {
+                    res.status(200).send({ message: 'Post deleted successfully' });
+                } else {
+                    res.status(400).send({ error: 'Post not found' });
+                }
+            } catch (err) {
+                console.log(err)
+                res.status(500).send({ error: 'Error deleting post' }); 
+            }
+        });
+
+        app.get('/api/posts/search/title/:title', this.jwtApplication.checkToken, async (req, res) => {
+            try {
+                const title: string = req.params.title;
+                const result = await this.postApplication.findByTitle(title);
+
+                if(result) {
+                    res.status(200).send({ post: result });
+                } else {
+                    res.status(400).send({ error: 'No posts found by the provided title' });
+                }
+            } catch (err) {
+                res.status(500).send({error: "Error searching post by title"})
+            }
+        });
+
+        app.get('/api/posts/search/tag/:tag', this.jwtApplication.checkToken, async (req, res) => {
+            try {
+                const tag: string = req.params.tag;
+                const result = await this.postApplication.findByTag(tag);
+
+                if (result) {
+                    res.status(200).send({ post: result });
+                } else {
+                    res.status(400).send({ error: 'No posts found by the provided tag' });
+                }
+
+            } catch (err) {
+                console.log(err)
+                res.status(500).send({error: "Error searching post by tag"})
+            }
+        }
     }
 }
