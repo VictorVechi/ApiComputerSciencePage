@@ -4,7 +4,6 @@ import PostRepository from '../infra/repository/PostRepository';
 import PostValidationService from '../infra/service/PostValidationService';
 import { IPostApp } from '../domain/application/IPostApp';
 import { Types } from 'mongoose';
-import { ITagPost } from '../domain/repository/model/ITag';
 
 @injectable()
 export default class Post implements IPostApp {
@@ -61,9 +60,9 @@ export default class Post implements IPostApp {
         }
     }
 
-    async findByTag(tags: ITagPost): Promise<Object[] | null> {
+    async findByTag(tag: string): Promise<Object[] | null> {
         try {
-            return await this.postRepository.findByTag(tags.name)
+            return await this.postRepository.findByTag(tag)
         } catch (error) {
             console.log(error)
             return null
