@@ -15,6 +15,7 @@ export enum DependencyEnum {
     USER_VALIDATION_SERVICE = 'IUserValidationService',
     ROLE_VALIDATION_SERVICE = 'IRoleValidationService',
     TAG_VALIDATION_SERVICE = 'ITagValidationService',
+    POST_VALIDATION_SERVICE = 'IPostValidationService',
 
     /** 
      * Adapters
@@ -28,6 +29,7 @@ export enum DependencyEnum {
     ROLE_APPLICATION = 'IRoleApp',
     USER_APPLICATION = 'IUserApp',
     TAG_APPLICATION = 'ITagApp',
+    POST_APPLICATION = 'IPostApp',
     
     /** 
      * Controllers

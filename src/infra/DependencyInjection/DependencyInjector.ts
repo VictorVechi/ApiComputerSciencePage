@@ -33,7 +33,10 @@ import { ITagController } from "../../domain/controller/ITagController";
 import TagController from "../controllers/TagController";
 import { IPostSchema } from "../../domain/repository/model/IPost";
 import PostRepository from "../repository/PostRepository";
-
+import { IPostValidationService } from "../../domain/service/IPostValidationService";
+import PostValidationService from "../service/PostValidationService";
+import { IPostApp } from "../../domain/application/IPostApp";
+import Post from "../../application/Post";
 
 export default class DependencyInjector {
     static register(): DependencyContainer {
@@ -58,6 +61,7 @@ export default class DependencyInjector {
         container.register<IRoleValidationService>(DependencyEnum.ROLE_VALIDATION_SERVICE, RoleValidationService);
         container.register<IJwtService>(DependencyEnum.JWT_SERVICE, JwtService);
         container.register<ITagValidationService>(DependencyEnum.TAG_VALIDATION_SERVICE, TagValidationService);
+        container.register<IPostValidationService>(DependencyEnum.POST_VALIDATION_SERVICE, PostValidationService);
     }
 
     private static registerAdapters() {
@@ -69,6 +73,7 @@ export default class DependencyInjector {
         container.register<IRoleApp>(DependencyEnum.ROLE_APPLICATION, Role);
         container.register<IUserApp>(DependencyEnum.USER_APPLICATION, User);
         container.register<ITagApp>(DependencyEnum.TAG_APPLICATION, Tag);
+        container.register<IPostApp>(DependencyEnum.POST_APPLICATION, Post);
     }
 
     private static registerControllers() {
