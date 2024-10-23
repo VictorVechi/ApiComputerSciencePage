@@ -4,6 +4,7 @@ import PostRepository from '../infra/repository/PostRepository';
 import PostValidationService from '../infra/service/PostValidationService';
 import { IPostApp } from '../domain/application/IPostApp';
 import { Types } from 'mongoose';
+import { ITagPost } from '../domain/repository/model/ITag';
 
 @injectable()
 export default class Post implements IPostApp {
@@ -21,7 +22,7 @@ export default class Post implements IPostApp {
             }
             return null;
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return null;
         }
     }
@@ -35,9 +36,37 @@ export default class Post implements IPostApp {
             }
             return null;
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return null;
         }
     }
     
+    async delete(id: Types.ObjectId): Promise<boolean | null> {
+        try {
+            const validate = await this.postValidationService.validateDelete(id);
+            return validate
+
+        } catch (error) {
+            console.log(error);
+            return null
+        }
+    }
+
+    async findByTitle(title: string): Promise<Object | null> {
+        try {
+            return await this.postRepository.findByTitle(title)
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
+
+    async findByTag(tags: ITagPost): Promise<Object[] | null> {
+        try {
+            return await this.postRepository.findByTag(tags.name)
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
 }
