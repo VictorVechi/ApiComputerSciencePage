@@ -10,6 +10,11 @@ export default class PostRepository extends BaseRepository<IPostSchema> {
         super(PostModel);
     }
     
+    async existsByTitle(title: string): Promise<boolean> {
+        const post = await this.findByField({ title: title });
+        return post !== null;
+    }
+
     async findByTitle(title: string): Promise<IPostSchema[] | null> {
         return await this.findAllByField({ title: { $regex: title, $options: 'i'} });
     }

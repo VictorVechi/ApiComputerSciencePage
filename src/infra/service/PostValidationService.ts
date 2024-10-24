@@ -10,7 +10,7 @@ export default class PostValidationService implements IPostValidationService {
         @inject(DependencyEnum.POST_REPOSITORY) private postRepository: PostRepository
     ) {}
 
-    validateCreate(post_details: any): boolean {
+    async validateCreate(post_details: any): Promise<boolean> {
         if (!post_details.title) {
             console.log('Title is required');
             return false;
@@ -24,6 +24,13 @@ export default class PostValidationService implements IPostValidationService {
         if(!post_details.tags) {
             console.log('At least one tag is required')
             return false;
+        }
+
+        const title_exists = await this.postRepository.existsByTitle(post_details.title);
+        
+        if(title_exists){
+            console.log("Title already exists")
+            return false
         }
 
         return true;

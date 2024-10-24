@@ -14,7 +14,7 @@ export default class Post implements IPostApp {
 
     async create(data: any): Promise<Object | null> {
         try {
-            const validate = this.postValidationService.validateCreate(data);
+            const validate = await this.postValidationService.validateCreate(data);
             if (validate) {
                 const date = new Date();
                 return await this.postRepository.create({ ...data, createdAt: date, updatedAt: date, active: true });
