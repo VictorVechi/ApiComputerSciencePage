@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import { IUserAdapter } from "../../domain/adapter/IUserAdapter";
 import { IUser, IUserAdapted } from "../../domain/repository/model/IUser";
 import { injectable } from "tsyringe";

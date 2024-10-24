@@ -13,7 +13,7 @@ export default class RoleController implements IRoleController {
     ){}
 
     routes(app: Express) {
-        app.post('/api/roles/register', this.jwtService.checkAdminToken ,async (req, res) => {
+        app.post('/api/roles/register', this.jwtService.checkAdminToken, async (req, res) => {
             try {
                 const data = req.body;
                 const role = await this.roleApplication.create(data);

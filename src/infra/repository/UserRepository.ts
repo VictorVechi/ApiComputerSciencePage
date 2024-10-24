@@ -7,7 +7,7 @@ import { DeleteResult } from 'mongodb';
 
 
 @injectable()
-class UserRepository extends BaseRepository<IUserSchema> {
+export default class UserRepository extends BaseRepository<IUserSchema> {
     constructor() {
         super(UserModel);
     }
@@ -16,8 +16,8 @@ class UserRepository extends BaseRepository<IUserSchema> {
         return await this.findByField({ email: email });
     }
 
-    async deleteById(id: Types.ObjectId): Promise<DeleteResult>{
+    async deleteById(id: Types.ObjectId): Promise<DeleteResult | null>{
         return await this.delete(id);
     }
 
-}export default UserRepository;
+};

@@ -5,7 +5,7 @@ import { IRoleSchema } from "../../domain/repository/model/IRole";
 
 
 @injectable()
-class RoleRepository extends BaseRepository<IRoleSchema> {
+export default class RoleRepository extends BaseRepository<IRoleSchema> {
   constructor() {
     super(RoleModel);
   }
@@ -13,4 +13,4 @@ class RoleRepository extends BaseRepository<IRoleSchema> {
   async findByName(name: string): Promise<IRoleSchema | null> {
     return await this.findByField({ name: name });
   }
-} export default RoleRepository;
+};
