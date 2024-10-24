@@ -51,18 +51,18 @@ export default class Post implements IPostApp {
         }
     }
 
-    async findByTitle(title: string): Promise<Object | null> {
+    async search(data: any): Promise<Object[] | null> {
         try {
-            return await this.postRepository.findByTitle(title)
-        } catch (error) {
-            console.log(error)
-            return null
-        }
-    }
+            if(data.title) {
+                return await this.postRepository.findByTitle(data.title)
+            }
+            
+            if(data.tag) {
+                return await this.postRepository.findByTag(data.tag)
+            }
 
-    async findByTag(tag: string): Promise<Object[] | null> {
-        try {
-            return await this.postRepository.findByTag(tag)
+            return null
+
         } catch (error) {
             console.log(error)
             return null

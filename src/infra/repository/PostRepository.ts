@@ -10,8 +10,8 @@ export default class PostRepository extends BaseRepository<IPostSchema> {
         super(PostModel);
     }
     
-    async findByTitle(title: string): Promise<IPostSchema | null> {
-        return await this.findByField({ title: { $regex: title, $options: 'i'} });
+    async findByTitle(title: string): Promise<IPostSchema[] | null> {
+        return await this.findAllByField({ title: { $regex: title, $options: 'i'} });
     }
 
     async findByTag(tag: string): Promise<IPostSchema[]> {
