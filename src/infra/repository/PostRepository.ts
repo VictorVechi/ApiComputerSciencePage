@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { IPostSchema } from "../../domain/repository/model/IPost";
+import { IPost, IPostSchema } from "../../domain/repository/model/IPost";
 import BaseRepository from "./BaseRepository";
 import PostModel from "./model/PostModel";
 import { Types, DeleteResult } from 'mongoose';
@@ -10,16 +10,15 @@ export default class PostRepository extends BaseRepository<IPostSchema> {
         super(PostModel);
     }
     
-    async existsByTitle(title: string): Promise<boolean> {
-        const post = await this.findByField({ title: title });
-        return post !== null;
+    async findExactTitle(title: string): Promise<IPostSchema | null> {
+        return await this.findByField({ title: title });
     }
 
     async findByTitle(title: string): Promise<IPostSchema[] | null> {
         return await this.findAllByField({ title: { $regex: title, $options: 'i'} });
     }
 
-    async findByTag(tag: string): Promise<IPostSchema[]> {
+    async findByTag(tag: string): Promise<IPostSchema[] | null> {
         return await this.findAllByField({ 'tags.name': tag });
     }
 

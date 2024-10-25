@@ -26,7 +26,7 @@ export default class PostValidationService implements IPostValidationService {
             return false;
         }
 
-        const title_exists = await this.postRepository.existsByTitle(post_details.title);
+        const title_exists = await this.postRepository.findExactTitle(post_details.title);
         
         if(title_exists){
             console.log("Title already exists")
