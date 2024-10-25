@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { IPost, IPostSchema } from "../../domain/repository/model/IPost";
+import { IPostSchema } from "../../domain/repository/model/IPost";
 import BaseRepository from "./BaseRepository";
 import PostModel from "./model/PostModel";
 import { Types, DeleteResult } from 'mongoose';
