@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import { IRole, IRoleAdapted } from "../../domain/repository/model/IRole";
 import { injectable } from "tsyringe";
 import { IRoleAdapter } from "../../domain/adapter/IRoleAdapter";

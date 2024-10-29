@@ -15,7 +15,7 @@ export default class UserController implements IUserController {
 
     routes(app: Express) {
 
-        app.post('/api/user/register', async (req, res) => {
+        app.post('/api/user/register', this.jwtService.checkAdminToken, async (req, res) => {
             try {
                 const data = req.body;
                 const user = await this.userApplication.create(data);
