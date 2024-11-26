@@ -25,4 +25,5 @@ export default class PostRepository extends BaseRepository<IPostSchema> {
     async deleteById(id: Types.ObjectId): Promise<DeleteResult | null>{
         return await this.delete(id);
     }
+
 }

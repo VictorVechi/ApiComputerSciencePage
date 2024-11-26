@@ -13,6 +13,21 @@ export default class PostController implements IPostController {
     ){}
 
     routes(app: Express) {
+
+        app.get('/api/posts', this.jwtApplication.checkToken, async (_req, res) => {
+            try {
+                const posts = await this.postApplication.searchAll();
+                if (posts) {
+                    res.status(200).send(posts);
+                } else {
+                    res.status(400).send({ error: 'Posts not found' });
+                }
+            } catch (err) {
+                console.log(err);
+                res.status(500).send({ error: 'Error searching posts' });
+            }
+        });
+
         app.post('/api/posts/create', this.jwtApplication.checkToken, async (req, res) => {
             try {
                 const data = req.body;

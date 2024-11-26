@@ -68,4 +68,13 @@ export default class Post implements IPostApp {
             return null
         }
     }
+
+    async searchAll(): Promise<Object[] | null> {
+        try {
+            return await this.postRepository.findAll();
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    } 
 }
