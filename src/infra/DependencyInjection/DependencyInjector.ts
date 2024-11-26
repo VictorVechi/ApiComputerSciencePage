@@ -39,7 +39,8 @@ import { IPostApp } from "../../domain/application/IPostApp";
 import Post from "../../application/Post";
 import { IPostController } from "../../domain/controller/IPostController";
 import PostController from "../controllers/PostController";
-
+import { IPostAdapter } from "../../domain/adapter/IPostAdapter";
+import { PostAdapter } from "../adapter/PostAdapter";
 
 export default class DependencyInjector {
     static register(): DependencyContainer {
@@ -70,6 +71,7 @@ export default class DependencyInjector {
     private static registerAdapters() {
         container.register<IRoleAdapter>(DependencyEnum.ROLE_ADAPTER, RoleAdapter);
         container.register<IUserAdapter>(DependencyEnum.USER_ADAPTER, UserAdapter);
+        container.register<IPostAdapter>(DependencyEnum.POST_ADAPTER, PostAdapter);
     }
 
     private static registerApplications() {
