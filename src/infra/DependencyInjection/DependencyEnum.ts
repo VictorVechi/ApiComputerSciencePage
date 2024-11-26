@@ -22,6 +22,7 @@ export enum DependencyEnum {
     */
     ROLE_ADAPTER = 'IRoleAdapter',
     USER_ADAPTER = 'IUserAdapter',
+    POST_ADAPTER = 'IPostAdapter',
 
     /** 
      * Use Cases
