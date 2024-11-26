@@ -14,7 +14,7 @@ export default class PostController implements IPostController {
 
     routes(app: Express) {
 
-        app.get('/api/posts', this.jwtApplication.checkToken, async (_req, res) => {
+        app.get('/api/posts', async (_req, res) => {
             try {
                 const posts = await this.postApplication.searchAll();
                 if (posts) {
@@ -43,7 +43,7 @@ export default class PostController implements IPostController {
             }
         });
 
-        app.post('/api/posts/search', this.jwtApplication.checkToken, async (req, res) => {
+        app.post('/api/posts/search', async (req, res) => {
             try {
                 const data = req.body;
                 const posts = await this.postApplication.search(data);
