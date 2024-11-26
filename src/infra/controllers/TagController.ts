@@ -48,7 +48,7 @@ export default class TagController implements ITagController {
             }
         });
 
-        app.get('/api/tag/all', this.jwtService.checkToken, async (_req, res) => {
+        app.get('/api/tag', this.jwtService.checkToken, async (_req, res) => {
             try {
                 const tags = await this.tagApplication.findTags();
                 res.status(200).send({ tags });
