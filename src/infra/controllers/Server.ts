@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import DependencyInjector from "../DependencyInjection/DependencyInjector";
 import { container } from "tsyringe";
 import { IUserController } from "../../domain/controller/IUserController";
@@ -10,6 +11,7 @@ import { IPostController } from "../../domain/controller/IPostController";
 DependencyInjector.register();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const userController = container.resolve<IUserController>(DependencyEnum.USER_CONTROLLER);
