@@ -58,7 +58,7 @@ export default class PostValidationService implements IPostValidationService {
         }
 
         const post = await this.postRepository.findById(id);
-        if(post && post._id.toString() == id){
+        if(post && post._id == id){
             return true;
         }
 
@@ -73,7 +73,7 @@ export default class PostValidationService implements IPostValidationService {
         }
 
         const post = await this.postRepository.findById(id);
-        if(post && post._id.toString() == id){
+        if(post && post._id == id){
             const delete_result = await this.postRepository.deleteById(id);
             if(delete_result){
                 return true;
