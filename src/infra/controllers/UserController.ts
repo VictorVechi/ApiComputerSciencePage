@@ -126,7 +126,6 @@ export default class UserController implements IUserController {
         app.get('/api/user/details', this.jwtService.checkTokenAndReturnUser, async (req, res) => {
             try {
                 const user = req.body.user;
-                console.log(user);
                 if (user) {
                     res.status(200).send({ user });
                 } else {
