@@ -2,7 +2,8 @@ import { injectable } from "tsyringe";
 import { IPostSchema } from "../../domain/repository/model/IPost";
 import BaseRepository from "./BaseRepository";
 import PostModel from "./model/PostModel";
-import { Types, DeleteResult } from 'mongoose';
+import { Types } from 'mongoose';
+import { DeleteResult } from 'mongodb';
 
 @injectable()
 export default class PostRepository extends BaseRepository<IPostSchema> {

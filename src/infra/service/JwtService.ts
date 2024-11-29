@@ -70,4 +70,25 @@ export default class JwtService implements IJwtService{
             res.status(401).send({ error: 'Unauthorized' });
         }
     }
+
+    public async checkTokenAndReturnUser(req: any, res: any, next: any) {
+        try{
+            const authHeader = req.headers['authorization'];
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send({ error: 'Unauthorized' });
+            }
+
+            const secret = process.env.SECRET_KEY;
+
+            if(secret !== undefined){
+                const decoded:any = jwt.verify(token, secret);
+                req.body.user = decoded;
+                next();
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(401).send({ error: 'Unauthorized' });
+        }
+    }
 }

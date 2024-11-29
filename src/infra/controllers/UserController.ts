@@ -45,7 +45,7 @@ export default class UserController implements IUserController {
             }
         });
 
-        app.get('/api/user/:id', this.jwtService.checkAdminToken, async (req, res) => {
+        app.get('/api/user/info/:id', this.jwtService.checkAdminToken, async (req, res) => {
             try {
                 const id: any = req.params.id;
                 
@@ -120,6 +120,21 @@ export default class UserController implements IUserController {
             } catch (err) {
                 console.error(err);
                 res.status(500).send({ error: 'Error deleting user' });
+            }
+        });
+
+        app.get('/api/user/details', this.jwtService.checkTokenAndReturnUser, async (req, res) => {
+            try {
+                const user = req.body.user;
+                console.log(user);
+                if (user) {
+                    res.status(200).send({ user });
+                } else {
+                    res.status(400).send({ error: 'User not found' });
+                }
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error in verifications' });
             }
         });
     }
