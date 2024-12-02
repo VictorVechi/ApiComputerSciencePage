@@ -40,7 +40,7 @@ import Post from "../../application/Post";
 import { IPostController } from "../../domain/controller/IPostController";
 import PostController from "../controllers/PostController";
 import { IPostAdapter } from "../../domain/adapter/IPostAdapter";
-import { PostAdapter } from "../adapter/PostAdapter";
+import  PostAdapter  from "../adapter/PostAdapter";
 
 export default class DependencyInjector {
     static register(): DependencyContainer {
