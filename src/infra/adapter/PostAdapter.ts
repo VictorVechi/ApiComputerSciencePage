@@ -1,11 +1,11 @@
-import { IPost, IPostAdapted } from "../../domain/repository/model/IPost";
+import { IPostAdapted, IPostSchema } from "../../domain/repository/model/IPost";
 import { injectable } from "tsyringe";
 import { IPostAdapter } from "../../domain/adapter/IPostAdapter";
 
 @injectable()
-export class PostAdapter implements IPostAdapter {
+export default class PostAdapter implements IPostAdapter {
 
-    toJson(post: IPost): IPostAdapted {
+    toJson(post: IPostSchema): IPostAdapted {
         return {
             id: post._id.toString(),
             title: post.title,
