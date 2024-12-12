@@ -27,4 +27,5 @@ export interface IPostAdapted {
     title: string;
     content: string;
     tags: ITagPost[];
+    createdAt: Date;
 }
