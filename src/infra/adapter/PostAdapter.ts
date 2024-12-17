@@ -11,6 +11,7 @@ export default class PostAdapter implements IPostAdapter {
             title: post.title,
             content: post.content,
             tags: post.tags,
+            createdAt: post.createdAt,
         }
     }
 }
