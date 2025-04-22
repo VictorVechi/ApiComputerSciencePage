@@ -76,7 +76,7 @@ export default class UserController implements IUserController {
             }
         });
 
-        app.put('/api/user/recover', this.jwtService.checkToken, async (req, res) => {
+        app.put('/api/user/recover', this.jwtService.checkTokenAndAddUserInfo, async (req, res) => {
             try {
                 const data = req.body;
                 const user = await this.userApplication.updatePassword(data);

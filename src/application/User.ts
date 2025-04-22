@@ -109,12 +109,14 @@ export default class User implements IUserApp {
 
     async updatePassword(data: any): Promise<Object | null> {
         try {
-            const validate = await this.userValidationService.validateUpdatePassword(data);
-            if (validate){
+            const user = await this.userValidationService.validateUpdatePassword(data);
+            if (user){
                 const salt = await bcrypt.genSalt(12);
-                const passwordHash = await bcrypt.hash(data.password, salt);
+                const oldPasswordHash = await bcrypt.hash(data.password, salt);
+                if(user.password !== oldPasswordHash) return null;
+                const passwordHash = await bcrypt.hash(data.newPassword, salt);
                 const date = new Date();
-                return await this.userRepository.update(data.id, { password: passwordHash, updatedAt: date });
+                return await this.userRepository.update(data.user.id, { password: passwordHash, updatedAt: date });
             }
             return null;
         } catch (error) {

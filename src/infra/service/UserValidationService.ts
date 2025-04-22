@@ -3,7 +3,7 @@ import { IUserValidationServices } from "../../domain/service/IUserValidationSer
 import { DependencyEnum } from "../DependencyInjection/DependencyEnum";
 import UserRepository from "../repository/UserRepository";
 import bcrypt from 'bcrypt';
-import { IUserLogin, IUserDelete } from "../../domain/repository/model/IUser";
+import { IUserLogin, IUserDelete, IUser } from "../../domain/repository/model/IUser";
 import { IRoleValidationService } from "../../domain/service/IRoleValidationService";
 
 @injectable()
@@ -140,22 +140,24 @@ export default class UserValidationService implements IUserValidationServices {
         return false;
     }
 
-    async validateUpdatePassword(data: any): Promise<boolean> {
-        if (!data.id) {
+    async validateUpdatePassword(data: any): Promise<IUser | null> {
+        if (!data.user.id) {
             console.log('ID is required');
-            return false
+            return null
         }
 
-        if(!data.email || !this.emailRegex.test(data.email)) {
+        
+        if(!data.user.email || !this.emailRegex.test(data.user.email)) {
             console.log('Invalid email format');
-            return false
+            return null
         }
-
+        
         if (!data.password) {
             console.log('Password is required');
-            return false
+            return null
+            
         }
 
-        return true;
+        return await this.userRepository.findByEmail(data.user.email);
     }
 }
