@@ -24,4 +24,5 @@ export interface IRoleResponse {
 export interface IRoleAdapted {
     id: string;
     roleName: string;
+    description: string;
 }

@@ -8,7 +8,8 @@ export class RoleAdapter implements IRoleAdapter {
     toJson(role: IRole): IRoleAdapted {
         return {
             id: role._id.toString(),
-            roleName: role.name
+            roleName: role.name,
+            description: role.description
         }
     }
 }
