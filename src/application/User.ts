@@ -111,9 +111,10 @@ export default class User implements IUserApp {
         try {
             const user = await this.userValidationService.validateUpdatePassword(data);
             if (user){
+                
+                if(!await bcrypt.compare(data.password, user.password)) return null;
+                
                 const salt = await bcrypt.genSalt(12);
-                const oldPasswordHash = await bcrypt.hash(data.password, salt);
-                if(user.password !== oldPasswordHash) return null;
                 const passwordHash = await bcrypt.hash(data.newPassword, salt);
                 const date = new Date();
                 return await this.userRepository.update(data.user.id, { password: passwordHash, updatedAt: date });
