@@ -59,7 +59,6 @@ export default class User implements IUserApp {
             if (validate.user && !validate.error){
                 const user = this.userAdapter.toJson(validate.user);
                 const delete_result = await this.userRepository.delete(validate.user._id);
-            
                 return {
                     user,
                     deleted: delete_result ? true : false,
@@ -75,7 +74,8 @@ export default class User implements IUserApp {
 
     async findUsers(): Promise<Object | null> {
         try {
-            return await this.userRepository.findAll();
+            const users = await this.userRepository.findAll();
+            return users.map(user => this.userAdapter.toJson(user));
         } catch (error) {
             console.error(error);
             return null;
@@ -86,7 +86,8 @@ export default class User implements IUserApp {
         try {
             if(!id) return null;
             
-            return await this.userRepository.findById(id);
+            const user = await this.userRepository.findById(id);
+            return user ? this.userAdapter.toJson(user) : null;
         } catch (error) {
             console.error(error);
             return null;
