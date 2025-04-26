@@ -6,4 +6,5 @@ export interface IRoleApp {
     create(data: any): Promise<IRoleSchema | null>
     searchAll(): Promise<IRoleAdapted[] | null>
     update(id: Types.ObjectId, data: any): Promise<UpdateWriteOpResult | null>
+    delete(id: Types.ObjectId): Promise<any>
 }

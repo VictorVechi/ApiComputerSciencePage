@@ -82,4 +82,20 @@ export default class RoleValidationService implements IRoleValidationService{
 
         return true;
     }
+
+    async validateDelete(id: Types.ObjectId): Promise<Boolean> {
+        if (!id) {
+            console.log('Id is required');
+            return false
+        }
+
+        const role = await this.roleRepository.findById(id);
+
+        if (!role) {
+            console.log('Role not found');
+            return false
+        }
+
+        return true;
+    }
 }

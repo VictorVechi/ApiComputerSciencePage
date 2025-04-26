@@ -67,4 +67,18 @@ export default class Role implements IRoleApp {
             return null;
         }
     }
+
+    async delete(id: Types.ObjectId): Promise<any> {
+        try {
+            const validate = await this.roleValidationService.validateDelete(id);
+            if(validate) {
+                const role = await this.roleRepository.delete(id);
+                return role;
+            }
+            return null;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
 }

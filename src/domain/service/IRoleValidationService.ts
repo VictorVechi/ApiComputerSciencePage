@@ -6,4 +6,5 @@ export interface IRoleValidationService {
     validateRole(id: Types.ObjectId): Promise<IRoleResponse>;
     validateCreate(data: any): Promise<Boolean>;
     validateUpdate(id: Types.ObjectId, data: any): Promise<Boolean>;
+    validateDelete(id: Types.ObjectId): Promise<Boolean>;
 }
