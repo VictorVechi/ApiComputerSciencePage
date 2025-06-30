@@ -6,10 +6,17 @@ import app from './infra/controllers/Server';
 
 config();
 
+const {
+  MONGO_USER,
+  MONGO_PASS,
+  MONGO_HOST,
+  MONGO_PORT,
+  MONGO_DBNAME,
+} = process.env;
+
+const URL = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBNAME}?authSource=admin`;
+
 const PORT = process.env.PORT || 8080;
-const URL = process.env.MONGO_URI
-
-
 
 Database.connect(URL);
 
