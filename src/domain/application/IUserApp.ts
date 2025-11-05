@@ -9,6 +9,7 @@ export interface IUserApp {
     updatePassword(data: any): Promise<Object | null>
     findById(id: Types.ObjectId): Promise<Object | null>
     findUsers(): Promise<Object | null>
+    findUsersToShow(): Promise<Object[] | null>
 }
 
 export interface IUserLoginResponse {

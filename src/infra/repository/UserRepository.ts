@@ -20,4 +20,8 @@ export default class UserRepository extends BaseRepository<IUserSchema> {
         return await this.delete(id);
     }
 
+    async findByShowUserTrue(): Promise<IUser[]> {
+        return await this.findAllByField({ show_user: true });
+    }
+
 };

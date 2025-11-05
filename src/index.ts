@@ -9,8 +9,6 @@ config();
 const PORT = process.env.PORT || 8080;
 const URL = process.env.MONGO_URI
 
-
-
 Database.connect(URL);
 
 app.listen(PORT, () => {

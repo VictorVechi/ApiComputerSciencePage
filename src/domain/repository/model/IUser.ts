@@ -6,6 +6,9 @@ export interface IUser {
     email: string;
     password: string;
     id_cargo: Types.ObjectId;
+    search_area: String,
+    subjects: String,
+    show_user: Boolean
 }
 
 export interface IUserSchema {
@@ -14,6 +17,9 @@ export interface IUserSchema {
     email: string;
     password: string;
     id_cargo: Types.ObjectId;
+    search_area: String,
+    subjects: String,
+    show_user: Boolean
     createdAt: Date;
     updatedAt: Date;
     active: boolean;
@@ -35,4 +41,11 @@ export interface IUserAdapted {
     name: string;
     email: string;
     id_cargo: Types.ObjectId;
+}
+
+export interface IUserShowAdapted {
+    id: string;
+    name: string;
+    search_area: String;
+    subjects: String;
 }

@@ -136,5 +136,19 @@ export default class UserController implements IUserController {
                 res.status(500).send({ error: 'Error in verifications' });
             }
         });
+
+        app.get('/api/user/show', async (_req, res) => {
+            try {
+                const users = await this.userApplication.findUsersToShow();
+                if (users) {
+                    res.status(200).send(users);
+                } else {
+                    res.status(400).send({ error: 'Users not found' });
+                }
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error fetching users' });
+            }
+        });
     }
 }
