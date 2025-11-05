@@ -42,6 +42,7 @@ export interface IUserAdapted {
     email: string;
     subjects: String;
     search_area: String;
+    show_user: Boolean;
     id_cargo: Types.ObjectId;
 }
 

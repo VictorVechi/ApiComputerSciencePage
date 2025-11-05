@@ -12,7 +12,8 @@ export default class UserAdapter implements IUserAdapter {
             email: user.email,
             subjects: user.subjects,
             search_area: user.search_area,
-            id_cargo: user.id_cargo
+            id_cargo: user.id_cargo,
+            show_user: user.show_user
         }
     }
 
