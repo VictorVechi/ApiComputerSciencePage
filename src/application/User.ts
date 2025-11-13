@@ -7,6 +7,7 @@ import UserAdapter from "../infra/adapter/UserAdapter";
 import bcrypt from 'bcrypt';
 import JwtService from "../infra/service/JwtService";
 import { Types } from "mongoose";
+import { IUserShowAdapted } from "../domain/repository/model/IUser";
 
 @injectable()
 export default class User implements IUserApp {
@@ -24,7 +25,17 @@ export default class User implements IUserApp {
                 const salt = await bcrypt.genSalt(12);
                 const passwordHash = await bcrypt.hash(data.password, salt);
                 const date = new Date();
-                return await this.userRepository.create({ ...data, password: passwordHash, createdAt: date, updatedAt: date, active: true });
+                return await this.userRepository.create(
+                    { 
+                        ...data,
+                        password: passwordHash,
+                        createdAt: date,
+                        updatedAt: date,
+                        active: true,
+                        show_user: false,
+                        subjects: "",
+                        search_area: ""
+                    });
             }
             return null;
         } catch (error) {
@@ -125,6 +136,16 @@ export default class User implements IUserApp {
             return null;
         } catch (error) {
             console.error('Error updating password');
+            return null;
+        }
+    }
+
+    async findUsersToShow(): Promise<IUserShowAdapted[] | null> {
+        try {
+            const users = await this.userRepository.findByShowUserTrue();
+            return users.map(user => this.userAdapter.toJsonShow(user));
+        } catch (error) {
+            console.error(error);
             return null;
         }
     }
