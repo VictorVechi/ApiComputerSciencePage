@@ -11,7 +11,6 @@ export default class JwtService implements IJwtService {
     constructor(
         @inject(DependencyEnum.ROLE_APPLICATION) private roleApplication: Role
     ) {
-        // Vincula os métodos ao contexto da classe
         this.checkToken = this.checkToken.bind(this);
         this.checkTokenAndAddUserInfo = this.checkTokenAndAddUserInfo.bind(this);
         this.checkAdminToken = this.checkAdminToken.bind(this);
@@ -27,10 +26,37 @@ export default class JwtService implements IJwtService {
                 name: data.name,
                 email: data.email,
                 cargo: role.roleName,
-                exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60)
+                exp: Math.floor(Date.now() / 1000) + (2 * 60 * 60) // 2 horas
             }, secretKey);
         }
         return null;
+    }
+
+    public async generateRefreshToken(data: IUserAdapted): Promise<string | null> {
+        const secretKey = process.env.SECRET_KEY;
+        if(secretKey !== undefined){
+            return jwt.sign({
+                id: data.id,
+                type: 'refresh',
+                exp: Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60) // 7 dias
+            }, secretKey);
+        }
+        return null;
+    }
+
+    public async verifyRefreshToken(token: string): Promise<any | null> {
+        const secretKey = process.env.SECRET_KEY;
+        if (!secretKey) return null;
+
+        try {
+            const decoded: any = jwt.verify(token, secretKey);
+            if (decoded.type === 'refresh') {
+                return decoded;
+            }
+            return null;
+        } catch {
+            return null;
+        }
     }
 
     public isExpired(token: string): boolean {

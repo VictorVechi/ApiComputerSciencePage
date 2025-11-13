@@ -13,7 +13,8 @@ export interface IUserApp {
 
 export interface IUserLoginResponse {
     user: IUserAdapted,
-    token: string | null
+    token: string | null,
+    refreshToken?: string | null
 }
 
 export interface IUserDeleteResponse {

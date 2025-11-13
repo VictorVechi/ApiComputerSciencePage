@@ -12,6 +12,7 @@ export enum DependencyEnum {
      * Services
      */
     JWT_SERVICE = 'IJwtService',
+    CAPTCHA_SERVICE = 'ICaptchaService',
     USER_VALIDATION_SERVICE = 'IUserValidationService',
     ROLE_VALIDATION_SERVICE = 'IRoleValidationService',
     TAG_VALIDATION_SERVICE = 'ITagValidationService',
