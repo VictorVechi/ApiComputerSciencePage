@@ -4,18 +4,21 @@ import { DependencyEnum } from '../DependencyInjection/DependencyEnum';
 import { IJwtService } from '../../domain/service/IJwtService';
 import { IUserController } from '../../domain/controller/IUserController';
 import { IUserApp } from '../../domain/application/IUserApp';
+import { ICaptchaService } from '../../domain/service/ICaptchaService';
+import { loginLimiter, strictLimiter } from '../middleware/rateLimiter';
 
 @injectable()
 export default class UserController implements IUserController {
 
     constructor(
         @inject(DependencyEnum.JWT_SERVICE) private jwtService: IJwtService,
-        @inject(DependencyEnum.USER_APPLICATION) private userApplication: IUserApp
+        @inject(DependencyEnum.USER_APPLICATION) private userApplication: IUserApp,
+        @inject(DependencyEnum.CAPTCHA_SERVICE) private captchaService: ICaptchaService
     ){}
 
     routes(app: Express) {
 
-        app.post('/api/user/register', this.jwtService.checkAdminToken, async (req, res) => {
+        app.post('/api/user/register', this.jwtService.checkAdminToken, strictLimiter, async (req, res) => {
             try {
                 const data = req.body;
                 const user = await this.userApplication.create(data);
@@ -30,9 +33,15 @@ export default class UserController implements IUserController {
             }
         });
 
-        app.post('/api/user/login', async (req, res) => {
+        app.post('/api/user/login', loginLimiter, async (req, res) => {
             try{
-                const data = req.body;
+                const { captchaToken, ...data } = req.body;
+                
+                const captchaValid = await this.captchaService.verify(captchaToken);
+                if (!captchaValid) {
+                    return res.status(400).send({ error: 'CAPTCHA inválido ou expirado' });
+                }
+
                 const response = await this.userApplication.login(data)
                 if (response && response.token){
                     res.status(200).send({ message: 'User logged in successfully', response});
@@ -42,6 +51,39 @@ export default class UserController implements IUserController {
             } catch (err) {
                 console.error(err);
                 res.status(500).send({ error: 'Error logging in user' });
+            }
+        });
+
+        app.post('/api/user/refresh-token', async (req, res) => {
+            try {
+                const { refreshToken } = req.body;
+
+                if (!refreshToken) {
+                    return res.status(401).json({ error: 'Refresh token not provided' });
+                }
+
+                const decoded = await this.jwtService.verifyRefreshToken(refreshToken);
+
+                if (!decoded) {
+                    return res.status(401).json({ error: 'Invalid refresh token' });
+                }
+
+                const user = await this.userApplication.findById(decoded.id);
+
+                if (!user) {
+                    return res.status(401).json({ error: 'User not found' });
+                }
+
+                const newToken = await this.jwtService.generateToken(user as any);
+                const newRefreshToken = await this.jwtService.generateRefreshToken(user as any);
+
+                res.status(200).json({ 
+                    token: newToken,
+                    refreshToken: newRefreshToken
+                });
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: 'Error refreshing token' });
             }
         });
 
@@ -76,7 +118,7 @@ export default class UserController implements IUserController {
             }
         });
 
-        app.put('/api/user/recover', this.jwtService.checkTokenAndAddUserInfo, async (req, res) => {
+        app.put('/api/user/recover', this.jwtService.checkTokenAndAddUserInfo, strictLimiter, async (req, res) => {
             try {
                 const data = req.body;
                 const user = await this.userApplication.updatePassword(data);
@@ -106,7 +148,7 @@ export default class UserController implements IUserController {
             }
         });
 
-        app.delete('/api/user/delete', this.jwtService.checkAdminToken, async (req, res) => {
+        app.delete('/api/user/delete', this.jwtService.checkAdminToken, strictLimiter, async (req, res) => {
             try {
                 const data = req.body;
                 const response = await this.userApplication.delete(data);

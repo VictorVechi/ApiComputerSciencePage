@@ -50,10 +50,12 @@ export default class User implements IUserApp {
             if (validate.user && validate.login){
                 const user = this.userAdapter.toJson(validate.user);
                 const token = await this.jwtService.generateToken(user);
+                const refreshToken = await this.jwtService.generateRefreshToken(user);
                 if (token) {
                     return {
                         user,
-                        token
+                        token,
+                        refreshToken
                     }
                 }
             }

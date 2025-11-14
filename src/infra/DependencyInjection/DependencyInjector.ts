@@ -41,6 +41,8 @@ import { IPostController } from "../../domain/controller/IPostController";
 import PostController from "../controllers/PostController";
 import { IPostAdapter } from "../../domain/adapter/IPostAdapter";
 import  PostAdapter  from "../adapter/PostAdapter";
+import { ICaptchaService } from "../../domain/service/ICaptchaService";
+import CaptchaService from "../service/CaptchaService";
 
 export default class DependencyInjector {
     static register(): DependencyContainer {
@@ -64,6 +66,7 @@ export default class DependencyInjector {
         container.register<IUserValidationServices>(DependencyEnum.USER_VALIDATION_SERVICE, UserValidationService);
         container.register<IRoleValidationService>(DependencyEnum.ROLE_VALIDATION_SERVICE, RoleValidationService);
         container.register<IJwtService>(DependencyEnum.JWT_SERVICE, JwtService);
+        container.register<ICaptchaService>(DependencyEnum.CAPTCHA_SERVICE, CaptchaService);
         container.register<ITagValidationService>(DependencyEnum.TAG_VALIDATION_SERVICE, TagValidationService);
         container.register<IPostValidationService>(DependencyEnum.POST_VALIDATION_SERVICE, PostValidationService);
     }
